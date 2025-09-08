@@ -1,30 +1,4 @@
 
-// import React, { useState } from "react";
-// import { getUser } from "../utils/auth";
-// import { useGetPatientAppointmentsQuery } from "../api/appointmentApi";
-// import Loader from "../components/Loader";
-// import PaymentForm from "../features/payments/PaymentForm";
-
-//     );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
