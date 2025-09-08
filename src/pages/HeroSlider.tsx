@@ -10,13 +10,13 @@ import "slick-carousel/slick/slick-theme.css";
 const NextArrow = ({ onClick }: { onClick?: () => void }) => (
   <div
     onClick={onClick}
-    className="absolute right-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer 
+    className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer 
                bg-white/30 hover:bg-white/60 backdrop-blur-xl 
-               p-3 md:p-4 rounded-full shadow-xl transition duration-300"
+               p-2 sm:p-4 rounded-full shadow-xl transition duration-300"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5 md:h-6 md:w-6 text-white drop-shadow-lg"
+      className="h-4 w-4 sm:h-6 sm:w-6 text-white drop-shadow-lg"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -29,13 +29,13 @@ const NextArrow = ({ onClick }: { onClick?: () => void }) => (
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
   <div
     onClick={onClick}
-    className="absolute left-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer 
+    className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 cursor-pointer 
                bg-white/30 hover:bg-white/60 backdrop-blur-xl 
-               p-3 md:p-4 rounded-full shadow-xl transition duration-300"
+               p-2 sm:p-4 rounded-full shadow-xl transition duration-300"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5 md:h-6 md:w-6 text-white drop-shadow-lg"
+      className="h-4 w-4 sm:h-6 sm:w-6 text-white drop-shadow-lg"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -59,21 +59,21 @@ const HeroSlider: React.FC = () => {
       text: "Connect with top doctors, manage health records, and book appointments effortlessly.",
       button: "Get Started",
       route: "/register",
-      img: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&h=1080",
+      img: "https://mms.businesswire.com/media/20210111005444/en/851257/5/1280_HealthyU_01_final_10.01.2021.jpg",
     },
     {
       title: "Instant Online Booking",
       text: "Schedule consultations with the best specialists anytime, anywhere.",
       button: "Book Now",
       route: "/booking",
-      img: "https://images.pexels.com/photos/7578802/pexels-photo-7578802.jpeg?auto=compress&cs=tinysrgb&h=1080",
+      img: "https://img.freepik.com/free-photo/air-ticket-flight-booking-concept_53876-122380.jpg",
     },
     {
       title: "Smart Healthcare Dashboards",
       text: "Track health, manage patients, and oversee hospital operations efficiently.",
       button: "Explore Features",
       route: "/features",
-      img: "https://images.pexels.com/photos/7579836/pexels-photo-7579836.jpeg?auto=compress&cs=tinysrgb&h=1080",
+      img: "https://media.istockphoto.com/id/1480239160/photo/an-analyst-uses-a-computer-and-dashboard-for-data-business-analysis-and-data-management.jpg?s=612x612&w=0&k=20&c=Zng3q0-BD8rEl0r6ZYZY0fbt2AWO9q_gC8lSrwCIgdk=",
     },
     {
       title: "Trusted by Specialists Worldwide",
@@ -87,7 +87,7 @@ const HeroSlider: React.FC = () => {
       text: "Secure video and chat consultations anytime, anywhere.",
       button: "Consult Now",
       route: "/consultation",
-      img: "https://images.pexels.com/photos/7579831/pexels-photo-7579831.jpeg?auto=compress&cs=tinysrgb&h=1080",
+      img: "https://img.freepik.com/free-vector/hospital-care-facebook-template_23-2151152864.jpg?semt=ais_hybrid&w=740&q=80",
     },
     {
       title: "Secure Payments & Records",
@@ -121,6 +121,14 @@ const HeroSlider: React.FC = () => {
     arrows: false,
     centerMode: true,
     centerPadding: "0px",
+    responsive: [
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+    ],
   };
 
   return (
@@ -137,25 +145,25 @@ const HeroSlider: React.FC = () => {
         {slides.map((slide, i) => (
           <div key={i}>
             <div
-              className="h-[90vh] bg-cover bg-center relative flex items-center justify-center"
+              className="h-[70vh] sm:h-[90vh] bg-cover bg-center relative flex items-center justify-center"
               style={{ backgroundImage: `url(${slide.img})` }}
             >
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-blue-900/50 to-teal-800/50"></div>
 
               {/* Content */}
-              <div className="relative z-10 text-center px-6 max-w-3xl mx-auto text-white animate-fadeIn">
-                <h1 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-2xl tracking-wide leading-snug">
+              <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto text-white animate-fadeIn">
+                <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold mb-4 sm:mb-6 drop-shadow-2xl tracking-wide leading-snug">
                   {slide.title}
                 </h1>
-                <p className="text-lg md:text-xl mb-10 opacity-95 leading-relaxed">
+                <p className="text-sm sm:text-lg md:text-xl mb-6 sm:mb-10 opacity-95 leading-relaxed">
                   {slide.text}
                 </p>
                 <button
                   onClick={() => navigate(slide.route)}
                   className="bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 
-                             text-white font-semibold px-8 py-3 md:px-10 md:py-4 rounded-full 
-                             shadow-lg transition transform hover:scale-105 hover:shadow-2xl"
+                             text-white font-semibold px-6 py-2 sm:px-8 sm:py-3 md:px-10 md:py-4 rounded-full 
+                             shadow-lg transition transform hover:scale-105 hover:shadow-2xl text-sm sm:text-base"
                 >
                   {slide.button}
                 </button>
@@ -166,7 +174,7 @@ const HeroSlider: React.FC = () => {
       </Slider>
 
       {/* Thumbnail Slider */}
-      <div className="max-w-4xl mx-auto mt-6 mb-20 px-4">
+      <div className="max-w-4xl mx-auto mt-4 sm:mt-6 mb-12 px-2 sm:px-4">
         <Slider
           {...thumbSettings}
           asNavFor={nav1 as Slider}
@@ -176,11 +184,11 @@ const HeroSlider: React.FC = () => {
           }}
         >
           {slides.map((slide, i) => (
-            <div key={i} className="px-2">
+            <div key={i} className="px-1 sm:px-2">
               <img
                 src={slide.img}
                 alt={slide.title}
-                className="h-20 w-full object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-blue-500 transition"
+                className="h-14 sm:h-20 w-full object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-blue-500 transition"
                 loading="lazy"
               />
             </div>
@@ -189,24 +197,24 @@ const HeroSlider: React.FC = () => {
       </div>
 
       {/* Floating Shapes */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float1"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float2"></div>
+      <div className="absolute top-0 left-0 w-56 h-56 sm:w-72 sm:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float1"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 sm:w-96 sm:h-96 bg-teal-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float2"></div>
 
       {/* Animations */}
       <style>{`
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(40px); }
+          from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
         }
         .animate-fadeIn { animation: fadeIn 1.2s ease-in-out forwards; }
 
         @keyframes float1 { 
           0%,100% { transform: translateY(0); } 
-          50% { transform: translateY(-30px); } 
+          50% { transform: translateY(-20px); } 
         }
         @keyframes float2 { 
           0%,100% { transform: translateY(0); } 
-          50% { transform: translateY(25px); } 
+          50% { transform: translateY(20px); } 
         }
         .animate-float1 { animation: float1 7s ease-in-out infinite; }
         .animate-float2 { animation: float2 10s ease-in-out infinite; }

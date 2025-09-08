@@ -94,7 +94,7 @@ const Features: React.FC = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden px-6 md:px-16 py-20 animated-gradient">
+    <section className="relative overflow-hidden mt-8 px-6 md:px-16 py-20 animated-gradient">
       {/* Wrap all content in a responsive sidebar margin container */}
       <div className={`transition-all duration-300 ${hasSidebar ? "md:ml-64" : "md:ml-0"}`}>
         {/* Floating shapes */}

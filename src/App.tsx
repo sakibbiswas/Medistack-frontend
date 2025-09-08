@@ -92,6 +92,11 @@ const App: React.FC = () => {
                 <Route path="/patient/book" element={<BookAppointment />} />
               </Route>
 
+        {/* payment */}
+
+
+
+
               {/* Catch-all: redirect unknown routes to landing */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
