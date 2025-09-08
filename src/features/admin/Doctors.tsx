@@ -1,4 +1,4 @@
-//Responsive for mobile and pc 
+// Responsive Doctors Management Page
 import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Loader from "../../components/Loader";
@@ -125,10 +125,10 @@ const Doctors: React.FC = () => {
   );
 
   const DoctorCard = ({ doctor }: { doctor: any }) => (
-    <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-md hover:shadow-xl transition flex flex-col justify-between border border-gray-200 p-5">
+    <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-md hover:shadow-xl transition flex flex-col justify-between border border-gray-200 p-4 sm:p-5 w-full">
       <div className="mb-4">
         <h4 className="text-lg font-semibold text-gray-800">{doctor.name}</h4>
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-sm break-words">
           {doctor.email} • {doctor.specialization}
         </p>
         <p className="text-gray-500 text-sm">
@@ -145,7 +145,7 @@ const Doctors: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="flex gap-3 mt-auto">
+      <div className="flex flex-col sm:flex-row gap-2 mt-auto">
         <button
           className="flex-1 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           onClick={() => {
@@ -168,26 +168,26 @@ const Doctors: React.FC = () => {
   return (
     <div className="flex min-h-screen relative overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100">
       {/* Floating shapes */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float1"></div>
-      <div className="absolute top-1/4 -right-32 w-80 h-80 bg-teal-300 rounded-full mix-blend-multiply filter blur-2xl opacity-25 animate-float2"></div>
-      <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float3"></div>
+      <div className="absolute -top-32 -left-32 w-72 h-72 sm:w-96 sm:h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float1"></div>
+      <div className="absolute top-1/4 -right-28 w-64 h-64 sm:w-80 sm:h-80 bg-teal-300 rounded-full mix-blend-multiply filter blur-2xl opacity-25 animate-float2"></div>
+      <div className="absolute bottom-0 left-1/3 w-56 h-56 sm:w-72 sm:h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float3"></div>
 
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 p-6 pt-20 relative z-10 lg:ml-64">
+      <main className="flex-1 p-4 sm:p-6 pt-20 relative z-10 lg:ml-64 w-full max-w-full">
         <Toaster position="top-right" />
-        <h2 className="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-3">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 flex items-center gap-3">
           <FaUserMd /> Doctors Management
         </h2>
 
         {/* Create Doctor Form */}
         <form
           onSubmit={handleCreateDoctor}
-          className="mb-6 p-6 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg max-w-lg space-y-4 border border-gray-200"
+          className="mb-6 p-4 sm:p-6 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg w-full max-w-full sm:max-w-lg space-y-4 border border-gray-200"
         >
-          <h3 className="text-xl font-semibold text-gray-700 flex items-center gap-2">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-700 flex items-center gap-2">
             <FaPlus /> Add New Doctor
           </h3>
           <input
@@ -238,7 +238,7 @@ const Doctors: React.FC = () => {
 
           {/* Slot Input */}
           <div className="border p-3 rounded-lg bg-white/50">
-            <div className="flex gap-2 mb-2">
+            <div className="flex flex-col sm:flex-row gap-2 mb-2">
               <input
                 value={slotInput}
                 onChange={(e) => setSlotInput(e.target.value)}
@@ -248,7 +248,7 @@ const Doctors: React.FC = () => {
               <button
                 type="button"
                 onClick={handleAddSlot}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                className="px-3 sm:px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition w-full sm:w-auto"
               >
                 Add
               </button>
@@ -273,11 +273,11 @@ const Doctors: React.FC = () => {
 
         {/* Update Availability */}
         {selectedDoctorId && (
-          <div className="max-w-md bg-white/70 backdrop-blur-md p-5 rounded-2xl shadow-lg mb-6 border border-gray-200">
+          <div className="w-full max-w-full sm:max-w-md bg-white/70 backdrop-blur-md p-4 sm:p-5 rounded-2xl shadow-lg mb-6 border border-gray-200">
             <h3 className="text-gray-700 font-semibold mb-3 flex items-center gap-2">
               <FaClock /> Update Availability
             </h3>
-            <div className="flex gap-2 mb-3">
+            <div className="flex flex-col sm:flex-row gap-2 mb-3">
               <input
                 value={editSlotInput}
                 onChange={(e) => setEditSlotInput(e.target.value)}
@@ -287,7 +287,7 @@ const Doctors: React.FC = () => {
               <button
                 type="button"
                 onClick={handleAddEditSlot}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                className="px-3 sm:px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition w-full sm:w-auto"
               >
                 Add
               </button>
@@ -299,7 +299,7 @@ const Doctors: React.FC = () => {
             </div>
             <button
               onClick={handleUpdateDoctorAvailability}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               Save
             </button>
@@ -307,11 +307,11 @@ const Doctors: React.FC = () => {
         )}
 
         {/* Doctors List */}
-        <h3 className="text-xl font-semibold mb-4 text-gray-800">All Doctors</h3>
+        <h3 className="text-lg sm:text-xl font-semibold mb-4 text-gray-800">All Doctors</h3>
         {loadingDoctors ? (
           <Loader />
         ) : doctors?.length ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {doctors.map((d) => (
               <DoctorCard key={d._id} doctor={d} />
             ))}

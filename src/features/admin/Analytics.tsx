@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import Loader from "../../components/Loader";
 import Sidebar from "../../components/Sidebar";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaUsers, FaUserMd, FaCalendarAlt, FaDollarSign } from "react-icons/fa";
 
 interface Totals {
   usersCount: number;
@@ -42,13 +42,20 @@ interface AnalyticsResponse {
   }[];
 }
 
-const SummaryCard: React.FC<{ title: string; value: string | number }> = ({
-  title,
-  value,
-}) => (
-  <div className="p-6 rounded-2xl shadow-md hover:shadow-xl transition bg-white/80 backdrop-blur-md border border-gray-200">
-    <div className="text-sm text-gray-500">{title}</div>
-    <div className="text-2xl font-extrabold text-gray-800">{value}</div>
+const SummaryCard: React.FC<{
+  title: string;
+  value: string | number;
+  icon: React.ReactNode;
+  color: string;
+}> = ({ title, value, icon, color }) => (
+  <div className="p-6 rounded-2xl shadow-lg hover:shadow-2xl transition bg-gradient-to-br from-white/90 to-gray-50 backdrop-blur-md border border-gray-100 flex items-center gap-4">
+    <div className={`p-3 rounded-full text-white ${color} shadow-md`}>
+      {icon}
+    </div>
+    <div>
+      <div className="text-sm text-gray-500">{title}</div>
+      <div className="text-2xl font-extrabold text-gray-800">{value}</div>
+    </div>
   </div>
 );
 
@@ -131,7 +138,7 @@ const AdminAnalytics: React.FC = () => {
       <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="text-2xl text-blue-600 p-2 rounded-md bg-white shadow-md"
+          className="text-2xl text-blue-600 p-2 rounded-md bg-white shadow-lg hover:shadow-xl"
         >
           {isSidebarOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
         </button>
@@ -139,7 +146,7 @@ const AdminAnalytics: React.FC = () => {
 
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity md:hidden ${
+        className={`fixed inset-0 bg-black bg-opacity-40 z-40 transition-opacity md:hidden ${
           isSidebarOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -166,12 +173,12 @@ const AdminAnalytics: React.FC = () => {
           isSidebarOpen ? "md:ml-64" : "md:ml-64"
         }`}
       >
-        <h1 className="text-3xl font-extrabold text-gray-800 mb-6">
+        <h1 className="text-3xl font-extrabold text-gray-800 mb-6 tracking-tight">
           Admin Analytics
         </h1>
 
         {error && (
-          <div className="bg-red-100 text-red-800 p-4 rounded-xl shadow mb-6">
+          <div className="bg-red-100 text-red-800 p-4 rounded-xl shadow mb-6 border border-red-200">
             {error}
           </div>
         )}
@@ -180,21 +187,35 @@ const AdminAnalytics: React.FC = () => {
           <>
             {/* Summary cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-              <SummaryCard title="Users" value={data.totals.usersCount} />
-              <SummaryCard title="Doctors" value={data.totals.doctorsCount} />
+              <SummaryCard
+                title="Users"
+                value={data.totals.usersCount}
+                icon={<FaUsers />}
+                color="bg-blue-500"
+              />
+              <SummaryCard
+                title="Doctors"
+                value={data.totals.doctorsCount}
+                icon={<FaUserMd />}
+                color="bg-purple-500"
+              />
               <SummaryCard
                 title="Appointments"
                 value={data.totals.appointmentsCount}
+                icon={<FaCalendarAlt />}
+                color="bg-indigo-500"
               />
               <SummaryCard
                 title="Revenue"
                 value={`$${Number(data.totals.totalRevenue || 0).toFixed(2)}`}
+                icon={<FaDollarSign />}
+                color="bg-green-500"
               />
             </div>
 
             {/* Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <section className="p-6 rounded-2xl shadow-md bg-white/80 backdrop-blur-md border border-gray-200">
+              <section className="p-6 rounded-2xl shadow-lg bg-white/90 backdrop-blur-md border border-gray-100">
                 <h2 className="text-lg font-semibold mb-2 text-gray-700">
                   Appointments (Last 7 days)
                 </h2>
@@ -209,14 +230,15 @@ const AdminAnalytics: React.FC = () => {
                         type="monotone"
                         dataKey="count"
                         stroke="#2563EB"
-                        strokeWidth={2}
+                        strokeWidth={3}
+                        dot={{ r: 5, fill: "#2563EB" }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
               </section>
 
-              <section className="p-6 rounded-2xl shadow-md bg-white/80 backdrop-blur-md border border-gray-200">
+              <section className="p-6 rounded-2xl shadow-lg bg-white/90 backdrop-blur-md border border-gray-100">
                 <h2 className="text-lg font-semibold mb-2 text-gray-700">
                   Revenue (Last 6 months)
                 </h2>
@@ -228,7 +250,18 @@ const AdminAnalytics: React.FC = () => {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="revenue" name="Revenue" fill="#16A34A" />
+                      <Bar
+                        dataKey="revenue"
+                        name="Revenue"
+                        fill="url(#revenueGradient)"
+                        radius={[6, 6, 0, 0]}
+                      />
+                      <defs>
+                        <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#16A34A" stopOpacity={0.9} />
+                          <stop offset="100%" stopColor="#22C55E" stopOpacity={0.6} />
+                        </linearGradient>
+                      </defs>
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -236,7 +269,7 @@ const AdminAnalytics: React.FC = () => {
             </div>
 
             {/* Top doctors */}
-            <section className="p-6 rounded-2xl shadow-md bg-white/80 backdrop-blur-md border border-gray-200 mt-6">
+            <section className="p-6 rounded-2xl shadow-lg bg-white/90 backdrop-blur-md border border-gray-100 mt-6">
               <h2 className="text-lg font-semibold mb-3 text-gray-700">
                 Top Doctors (by appointments)
               </h2>
@@ -247,7 +280,7 @@ const AdminAnalytics: React.FC = () => {
                   data.topDoctors.map((d) => (
                     <div
                       key={d.doctorId}
-                      className="flex justify-between items-center p-3 rounded-xl bg-gray-50 shadow-sm hover:bg-gray-100 transition"
+                      className="flex justify-between items-center p-4 rounded-xl bg-gradient-to-r from-gray-50 to-white shadow-md hover:shadow-lg transition"
                     >
                       <div>
                         <div className="font-medium text-gray-800">{d.name}</div>
@@ -265,7 +298,7 @@ const AdminAnalytics: React.FC = () => {
             </section>
 
             {/* Top patients */}
-            <section className="p-6 rounded-2xl shadow-md bg-white/80 backdrop-blur-md border border-gray-200 mt-6">
+            <section className="p-6 rounded-2xl shadow-lg bg-white/90 backdrop-blur-md border border-gray-100 mt-6">
               <h2 className="text-lg font-semibold mb-3 text-gray-700">
                 Top Patients (by appointments)
               </h2>
@@ -276,7 +309,7 @@ const AdminAnalytics: React.FC = () => {
                   data.topPatients.map((p) => (
                     <div
                       key={p.patientId}
-                      className="flex justify-between items-center p-3 rounded-xl bg-gray-50 shadow-sm hover:bg-gray-100 transition"
+                      className="flex justify-between items-center p-4 rounded-xl bg-gradient-to-r from-gray-50 to-white shadow-md hover:shadow-lg transition"
                     >
                       <div>
                         <div className="font-medium text-gray-800">{p.name}</div>

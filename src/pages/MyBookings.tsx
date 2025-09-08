@@ -22,12 +22,20 @@ const MyBookings: React.FC = () => {
 
   if (!hasSidebar) {
     return (
-      <div className={`min-h-screen flex items-center justify-center px-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 relative overflow-hidden ${hasSidebar ? "md:ml-64 pt-24" : "pt-12"}`}>
+      <div
+        className={`min-h-screen flex items-center justify-center px-4 sm:px-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 relative overflow-hidden ${
+          hasSidebar ? "md:ml-64 pt-24" : "pt-12"
+        }`}
+      >
         <FloatingShapes />
-        <div className="relative z-10 bg-white shadow-lg rounded-2xl p-10 max-w-lg w-full text-center transform transition hover:-translate-y-1 hover:shadow-2xl">
-          <h2 className="text-3xl font-bold mb-4 text-red-600">Access Denied</h2>
-          <p className="text-gray-700 mb-6">
-            You must be logged in as a <span className="font-semibold text-blue-600">Patient</span> to view your bookings.
+        <div className="relative z-10 bg-white shadow-lg rounded-2xl p-6 sm:p-10 max-w-lg w-full text-center transform transition hover:-translate-y-1 hover:shadow-2xl">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-red-600">
+            Access Denied
+          </h2>
+          <p className="text-gray-700 mb-6 text-sm sm:text-base">
+            You must be logged in as a{" "}
+            <span className="font-semibold text-blue-600">Patient</span> to view
+            your bookings.
           </p>
         </div>
         <ToastContainer />
@@ -35,17 +43,27 @@ const MyBookings: React.FC = () => {
     );
   }
 
-  const { data: appointments, isLoading } = useGetPatientAppointmentsQuery(user._id);
+  const { data: appointments, isLoading } = useGetPatientAppointmentsQuery(
+    user._id
+  );
 
   if (isLoading) return <Loader />;
 
   if (!appointments?.length) {
     return (
-      <div className={`min-h-screen flex items-center justify-center px-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 relative overflow-hidden ${hasSidebar ? "md:ml-64 pt-24" : "pt-12"}`}>
+      <div
+        className={`min-h-screen flex items-center justify-center px-4 sm:px-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 relative overflow-hidden ${
+          hasSidebar ? "md:ml-64 pt-24" : "pt-12"
+        }`}
+      >
         <FloatingShapes />
-        <div className="relative z-10 bg-white shadow-lg rounded-2xl p-10 max-w-lg w-full text-center transform transition hover:-translate-y-1 hover:shadow-2xl">
-          <h1 className="text-3xl font-bold mb-4 text-blue-700">My Bookings</h1>
-          <p className="text-gray-600">You have no appointments booked yet.</p>
+        <div className="relative z-10 bg-white shadow-lg rounded-2xl p-6 sm:p-10 max-w-lg w-full text-center transform transition hover:-translate-y-1 hover:shadow-2xl">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-700">
+            My Bookings
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-base">
+            You have no appointments booked yet.
+          </p>
         </div>
         <ToastContainer />
       </div>
@@ -53,13 +71,20 @@ const MyBookings: React.FC = () => {
   }
 
   return (
-    <div className={`relative min-h-screen px-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 overflow-hidden ${hasSidebar ? "md:ml-64 pt-24" : "pt-12"}`}>
+    <div
+      className={`relative min-h-screen px-4 sm:px-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 overflow-hidden ${
+        hasSidebar ? "md:ml-64 pt-24" : "pt-12"
+      }`}
+    >
       <FloatingShapes />
 
-      <div className="relative z-10 max-w-5xl mx-auto bg-white shadow-lg rounded-2xl p-8 transform transition hover:-translate-y-1 hover:shadow-2xl">
-        <h1 className="text-3xl font-bold mb-6 text-blue-700 text-center">My Bookings</h1>
+      <div className="relative z-10 max-w-5xl mx-auto bg-white shadow-lg rounded-2xl p-6 sm:p-8 transform transition hover:-translate-y-1 hover:shadow-2xl">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-blue-700 text-center">
+          My Bookings
+        </h1>
 
-        <div className="overflow-x-auto">
+        {/* Desktop Table */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="w-full border-collapse rounded overflow-hidden min-w-[600px]">
             <thead className="bg-gray-100">
               <tr>
@@ -73,8 +98,12 @@ const MyBookings: React.FC = () => {
             <tbody>
               {appointments.map((appt) => (
                 <tr key={appt._id} className="hover:bg-gray-50 transition">
-                  <td className="border p-3">{(appt.doctorId as any)?.name || appt.doctorId}</td>
-                  <td className="border p-3">{new Date(appt.date).toLocaleDateString()}</td>
+                  <td className="border p-3">
+                    {(appt.doctorId as any)?.name || appt.doctorId}
+                  </td>
+                  <td className="border p-3">
+                    {new Date(appt.date).toLocaleDateString()}
+                  </td>
                   <td className="border p-3">{appt.time}</td>
                   <td className="border p-3">
                     <span
@@ -98,7 +127,9 @@ const MyBookings: React.FC = () => {
                         Pay Now
                       </button>
                     ) : (
-                      <span className="text-sm text-green-700 font-medium">Paid</span>
+                      <span className="text-sm text-green-700 font-medium">
+                        Paid
+                      </span>
                     )}
                   </td>
                 </tr>
@@ -107,11 +138,53 @@ const MyBookings: React.FC = () => {
           </table>
         </div>
 
+        {/* Mobile Card View */}
+        <div className="sm:hidden space-y-3">
+          {appointments.map((appt) => (
+            <div
+              key={appt._id}
+              className="border rounded-lg p-4 shadow-sm bg-gray-50"
+            >
+              <p className="text-sm font-semibold text-gray-800">
+                {(appt.doctorId as any)?.name || appt.doctorId}
+              </p>
+              <p className="text-xs text-gray-600 mt-1">
+                {new Date(appt.date).toLocaleDateString()} • {appt.time}
+              </p>
+              <div className="flex items-center justify-between mt-2">
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${
+                    appt.status === "Pending"
+                      ? "bg-yellow-500"
+                      : appt.status === "Confirmed"
+                      ? "bg-green-600"
+                      : "bg-gray-500"
+                  }`}
+                >
+                  {appt.status}
+                </span>
+                {appt.paymentStatus !== "Completed" ? (
+                  <button
+                    className="bg-green-600 text-white px-2 py-1 rounded-lg text-xs"
+                    onClick={() => setSelectedBooking(appt)}
+                  >
+                    Pay
+                  </button>
+                ) : (
+                  <span className="text-xs text-green-700 font-medium">
+                    Paid
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
         {selectedBooking && (
           <div className="mt-8">
             <PaymentForm
               appointmentId={selectedBooking._id}
-              onSuccess={() => setSelectedBooking(null)} 
+              onSuccess={() => setSelectedBooking(null)}
             />
           </div>
         )}

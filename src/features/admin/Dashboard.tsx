@@ -1,5 +1,3 @@
-
-//Responsive for mobile and pc 
 // src/pages/admin/AdminDashboard.tsx
 import React, { useState } from "react";
 import { useGetUsersQuery } from "../../api/userApi";
@@ -54,13 +52,15 @@ const AdminDashboard: React.FC = () => {
       <Sidebar />
 
       {/* Main content */}
-      <main className="flex-1 p-4 md:p-14 md:ml-64 transition-all duration-300">
+      <main className="flex-1 p-3 sm:p-4 md:p-10 md:ml-64 transition-all duration-300">
         {/* Header: Title + Toggle Button */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-          <h1 className="text-3xl pt-6 font-extrabold text-gray-800">Admin Dashboard</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
+          <h1 className="text-2xl sm:text-3xl pt-5 font-extrabold text-gray-800">
+            Admin Dashboard
+          </h1>
           <button
             onClick={toggleSummary}
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-500 text-white rounded-lg shadow hover:opacity-90 transition"
+            className="px-3 py-2 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-teal-500 text-white rounded-lg shadow hover:opacity-90 transition"
           >
             {showSummary ? "Hide Summary" : "Show Summary"}
           </button>
@@ -72,18 +72,18 @@ const AdminDashboard: React.FC = () => {
           <>
             {/* Summary Cards */}
             {showSummary && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 {summaryCards.map((card) => (
                   <div
                     key={card.label}
-                    className={`flex items-center p-4 md:p-6 rounded-3xl shadow-lg bg-gradient-to-br ${card.gradient} text-white hover:scale-105 transform transition`}
+                    className={`flex items-center p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-lg bg-gradient-to-br ${card.gradient} text-white hover:scale-105 transform transition`}
                   >
-                    <div className="text-3xl md:text-4xl mr-3 md:mr-4">{card.icon}</div>
+                    <div className="text-2xl sm:text-4xl mr-3 sm:mr-4">{card.icon}</div>
                     <div>
-                      <div className="text-sm md:text-base font-medium opacity-80">
+                      <div className="text-xs sm:text-sm font-medium opacity-80">
                         {card.label}
                       </div>
-                      <div className="text-xl md:text-2xl font-bold">{card.value}</div>
+                      <div className="text-lg sm:text-2xl font-bold">{card.value}</div>
                     </div>
                   </div>
                 ))}
@@ -91,34 +91,36 @@ const AdminDashboard: React.FC = () => {
             )}
 
             {/* Recent Appointments */}
-            <section className="bg-white rounded-3xl shadow-xl p-4 md:p-6">
-              <h2 className="text-xl font-semibold mb-3">Recent Appointments</h2>
-              <div className="space-y-3 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200">
+            <section className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-3 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold mb-3">
+                Recent Appointments
+              </h2>
+              <div className="space-y-3 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200 pr-1">
                 {appointments && appointments.length > 0 ? (
                   appointments.slice(0, 10).map((a) => (
                     <div
                       key={(a as any)._id}
-                      className="flex justify-between items-center p-3 md:p-4 rounded-xl shadow hover:shadow-lg transition bg-gray-50"
+                      className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 p-3 sm:p-4 rounded-xl shadow hover:shadow-lg transition bg-gray-50"
                     >
                       <div className="flex flex-col">
-                        <span className="font-semibold text-gray-700">
+                        <span className="font-semibold text-gray-700 text-sm sm:text-base">
                           {typeof a.patientId === "string"
                             ? a.patientId
                             : (a.patientId as any)?.name ?? "N/A"}
                         </span>
-                        <span className="text-gray-500">
+                        <span className="text-gray-500 text-xs sm:text-sm">
                           {a.date ? new Date(a.date).toLocaleString() : "N/A"}
                         </span>
                       </div>
-                      <div className="flex flex-col text-right">
-                        <span className="text-gray-600">
+                      <div className="flex flex-col text-left sm:text-right">
+                        <span className="text-gray-600 text-xs sm:text-sm">
                           Doctor:{" "}
                           {typeof a.doctorId === "string"
                             ? a.doctorId
                             : (a.doctorId as any)?.name ?? "N/A"}
                         </span>
                         <span
-                          className={`mt-1 px-3 py-1 rounded-full text-sm font-semibold ${
+                          className={`mt-1 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${
                             a.status === "Completed"
                               ? "bg-green-100 text-green-800"
                               : a.status === "Pending"
@@ -132,7 +134,9 @@ const AdminDashboard: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="text-gray-500 text-center py-4">No appointments yet</div>
+                  <div className="text-gray-500 text-center py-4">
+                    No appointments yet
+                  </div>
                 )}
               </div>
             </section>
