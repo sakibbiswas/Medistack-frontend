@@ -5,31 +5,6 @@
 // import Loader from "../components/Loader";
 // import PaymentForm from "../features/payments/PaymentForm";
 
-// const MyBookings: React.FC = () => {
-//   const user = getUser();
-//   const hasSidebar = !!user && user.role === "Patient";
-
-//   const [selectedBooking, setSelectedBooking] = useState<any>(null);
-
-//   const FloatingShapes = () => (
-//     <>
-//       <div className="absolute top-0 left-0 w-48 h-48 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float1"></div>
-//       <div className="absolute top-1/3 right-0 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-float2"></div>
-//       <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float3"></div>
-//     </>
-//   );
-
-//   if (!hasSidebar) {
-//     return (
-//       <div className={`min-h-screen flex items-center justify-center px-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 relative overflow-hidden ${hasSidebar ? "md:ml-64 pt-24" : "pt-12"}`}>
-//         <FloatingShapes />
-//         <div className="relative z-10 bg-white shadow-lg rounded-2xl p-10 max-w-lg w-full text-center transform transition hover:-translate-y-1 hover:shadow-2xl">
-//           <h2 className="text-3xl font-bold mb-4 text-red-600">Access Denied</h2>
-//           <p className="text-gray-700 mb-6">
-//             You must be logged in as a <span className="font-semibold text-blue-600">Patient</span> to view your bookings.
-//           </p>
-//         </div>
-//       </div>
 //     );
 
 
