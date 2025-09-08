@@ -9,7 +9,7 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
-import { getUser } from "../utils/auth";
+
 
 interface FAQItem {
   question: string;
@@ -18,8 +18,7 @@ interface FAQItem {
 }
 
 const FAQ: React.FC = () => {
-  const user = getUser();
-  const hasSidebar = !!user;
+
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs: FAQItem[] = [
@@ -42,12 +41,13 @@ const FAQ: React.FC = () => {
 
   return (
     <section className="relative overflow-hidden px-6 md:px-16 py-20 animated-gradient">
-      <div className={`transition-all duration-300 ${hasSidebar ? "md:ml-64" : "md:ml-0"}`}>
+      {/* Content wrapper - centered and responsive */}
+      <div className="max-w-7xl mx-auto relative z-10">
         <h2 className="text-5xl font-extrabold text-center text-white drop-shadow-lg mb-12 animate-fadeIn">
           Frequently Asked Questions
         </h2>
 
-        <div className="max-w-7xl mx-auto space-y-6 relative z-10">
+        <div className="space-y-6">
           {faqs.map((faq, idx) => (
             <div
               key={idx}
@@ -77,7 +77,7 @@ const FAQ: React.FC = () => {
           ))}
         </div>
 
-        {/* Floating colorful shapes */}
+        {/* Floating shapes */}
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float1 -z-10"></div>
         <div className="absolute top-1/3 -right-32 w-80 h-80 bg-cyan-400 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-float2 -z-10"></div>
         <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-float3 -z-10"></div>
@@ -89,21 +89,17 @@ const FAQ: React.FC = () => {
           background-size: 400% 400%;
           animation: gradientMove 15s ease infinite;
         }
-        @keyframes gradientMove {
-          0% {background-position: 0% 50%;}
-          50% {background-position: 100% 50%;}
-          100% {background-position: 0% 50%;}
-        }
-        @keyframes float1 {0%,100% {transform: translateY(0);} 50% {transform: translateY(-25px);} }
-        @keyframes float2 {0%,100% {transform: translateY(0);} 50% {transform: translateY(20px);} }
-        @keyframes float3 {0%,100% {transform: translateY(0);} 50% {transform: translateY(-20px);} }
+        @keyframes gradientMove {0% {background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0%50%;}}
+        @keyframes float1 {0%,100% {transform: translateY(0);}50%{transform:translateY(-25px);}}
+        @keyframes float2 {0%,100% {transform: translateY(0);}50%{transform:translateY(20px);}}
+        @keyframes float3 {0%,100% {transform: translateY(0);}50%{transform:translateY(-20px);}}
         .animate-float1 {animation: float1 7s ease-in-out infinite;}
         .animate-float2 {animation: float2 9s ease-in-out infinite;}
         .animate-float3 {animation: float3 8s ease-in-out infinite;}
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-        .animate-fadeIn { animation: fadeIn 1.5s ease forwards; }
-        .animated-card { transition: all 0.4s ease; }
-        .animated-card:hover { transform: translateY(-10px) scale(1.03); }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+        .animate-fadeIn {animation: fadeIn 1.5s ease forwards;}
+        .animated-card {transition: all 0.4s ease;}
+        .animated-card:hover {transform: translateY(-10px) scale(1.03);}
       `}</style>
     </section>
   );
