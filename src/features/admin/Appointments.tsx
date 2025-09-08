@@ -1,5 +1,4 @@
 
-
 //Responsive for mobile and pc 
 // src/pages/admin/Appointments.tsx
 import React, { useState, useEffect } from "react";
