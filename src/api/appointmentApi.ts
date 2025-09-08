@@ -201,7 +201,6 @@
 
 
 //payment type soho
-
 // src/services/appointmentApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -216,9 +215,9 @@ export interface Appointment {
   date: string;
   time: string;
   status: AppointmentStatus;
-  paymentStatus?: PaymentStatus;   // ✅ Added
-  fee?: number;                    // ✅ Added (used in PaymentForm)
-  paymentMethod?: string;          // (optional, if backend sends it)
+  paymentStatus?: PaymentStatus;   
+  fee?: number;                    //  Added (used in PaymentForm)
+  paymentMethod?: string;         
   createdAt?: string;
 }
 
