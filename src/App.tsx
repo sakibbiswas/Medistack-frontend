@@ -18,6 +18,7 @@ import Doctors from "./features/admin/Doctors";
 import Appointments from "./features/admin/Appointments";
 import Departments from "./features/admin/Departments";
 import Payments from "./features/admin/Payments";
+import AdminAnalytics from "./features/admin/Analytics";
 
 // 👨‍⚕️ Doctor
 import DoctorDashboard from "./features/doctor/Dashboard";
@@ -78,6 +79,7 @@ const App: React.FC = () => {
                 <Route path="/admin/appointments" element={<Appointments />} />
                 <Route path="/admin/departments" element={<Departments />} />
                 <Route path="/admin/payments" element={<Payments />} />
+                <Route path="/admin/analytics" element={<AdminAnalytics />} />
               </Route>
 
               {/* 👨‍⚕️ Doctor */}
