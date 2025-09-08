@@ -10,32 +10,63 @@ import toast, { Toaster } from "react-hot-toast";
 import { FaBars, FaTimes, FaTrash } from "react-icons/fa";
 
 const PaymentsDashboard: React.FC = () => {
-  const { data: payments = [], isLoading, error, refetch } = useGetPaymentsQuery();
+  const { data: payments = [], isLoading, error } = useGetPaymentsQuery();
   const [deletePayment] = useDeletePaymentMutation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile toggle
+  const [localPayments, setLocalPayments] = useState<any[]>([]);
+
+  // Initialize local state when payments load
+  useEffect(() => {
+    if (payments.length > 0) {
+      setLocalPayments(payments);
+    }
+  }, [payments]);
 
   // Prevent body scroll when sidebar is open
   useEffect(() => {
     document.body.style.overflow = isSidebarOpen ? "hidden" : "auto";
   }, [isSidebarOpen]);
 
-  if (error) {
-    toast.error("Failed to load payments");
-  }
+  useEffect(() => {
+    if (error) {
+      toast.error("Failed to load payments");
+    }
+  }, [error]);
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this payment?")) return;
     try {
       await deletePayment(id).unwrap();
-      toast.success("Payment deleted successfully");
-      refetch();
+      // Remove from local state instantly
+      setLocalPayments((prev) => prev.filter((p) => p._id !== id));
+      toast.success("✅ Payment deleted successfully");
     } catch (err) {
-      toast.error("Failed to delete payment");
+      toast.error("❌ Failed to delete payment");
     }
   };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 relative overflow-hidden">
+      {/* Toast Notification */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          success: {
+            style: {
+              background: "#d1fae5",
+              color: "#065f46",
+              fontWeight: "600",
+            },
+          },
+          error: {
+            style: {
+              background: "#fee2e2",
+              color: "#991b1b",
+              fontWeight: "600",
+            },
+          },
+        }}
+      />
 
       {/* Mobile Hamburger */}
       <div className="md:hidden fixed top-4 left-4 z-50">
@@ -50,7 +81,9 @@ const PaymentsDashboard: React.FC = () => {
       {/* Mobile overlay */}
       <div
         className={`fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity md:hidden ${
-          isSidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isSidebarOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setIsSidebarOpen(false)}
       />
@@ -74,14 +107,13 @@ const PaymentsDashboard: React.FC = () => {
           isSidebarOpen ? "md:ml-64" : "md:ml-64"
         }`}
       >
-        <Toaster position="top-right" reverseOrder={false} />
         <h1 className="text-2xl mt-8 md:text-3xl font-extrabold text-gray-800 mb-4 md:mb-6">
           Payments
         </h1>
 
         {isLoading ? (
           <Loader />
-        ) : payments.length === 0 ? (
+        ) : localPayments.length === 0 ? (
           <div className="text-gray-400 italic py-12 text-center text-base md:text-lg">
             No payments found
           </div>
@@ -92,26 +124,49 @@ const PaymentsDashboard: React.FC = () => {
               <table className="w-full border border-gray-200 rounded-xl shadow-lg bg-white/70 backdrop-blur-md">
                 <thead className="bg-gray-100 sticky top-0 z-20">
                   <tr>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Patient</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Appointment</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Amount</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Method</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Status</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Transaction ID</th>
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Actions</th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      Patient
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      Appointment
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      Amount
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      Method
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      Status
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      Transaction ID
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {payments.map((p) => (
-                    <tr key={p._id} className="border-t hover:bg-gray-50 transition">
-                      <td className="px-4 py-3 text-gray-700">{(p.patientId as any)?.name || "N/A"}</td>
+                  {localPayments.map((p) => (
+                    <tr
+                      key={p._id}
+                      className="border-t hover:bg-gray-50 transition"
+                    >
+                      <td className="px-4 py-3 text-gray-700">
+                        {(p.patientId as any)?.name || "N/A"}
+                      </td>
                       <td className="px-4 py-3 text-gray-600">
                         {(p.appointmentId as any)?.date
-                          ? new Date((p.appointmentId as any)?.date).toLocaleDateString()
+                          ? new Date(
+                              (p.appointmentId as any)?.date
+                            ).toLocaleDateString()
                           : "-"}{" "}
                         {(p.appointmentId as any)?.time || ""}
                       </td>
-                      <td className="px-4 py-3 font-semibold text-gray-800">${p.amount}</td>
+                      <td className="px-4 py-3 font-semibold text-gray-800">
+                        ${p.amount}
+                      </td>
                       <td className="px-4 py-3 text-gray-600">{p.method}</td>
                       <td className="px-4 py-3">
                         <span
@@ -126,7 +181,9 @@ const PaymentsDashboard: React.FC = () => {
                           {p.status}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-gray-600">{p.transactionId || "-"}</td>
+                      <td className="px-4 py-3 text-gray-600">
+                        {p.transactionId || "-"}
+                      </td>
                       <td className="px-4 py-3">
                         <button
                           onClick={() => handleDelete(p._id)}
@@ -143,7 +200,7 @@ const PaymentsDashboard: React.FC = () => {
 
             {/* Card layout on Mobile */}
             <div className="grid gap-4 md:hidden">
-              {payments.map((p) => (
+              {localPayments.map((p) => (
                 <div
                   key={p._id}
                   className="bg-white/80 backdrop-blur-md shadow-md rounded-xl p-4 border border-gray-200"
@@ -155,7 +212,9 @@ const PaymentsDashboard: React.FC = () => {
                   <p className="text-sm text-gray-500">
                     <span className="font-semibold">Appointment:</span>{" "}
                     {(p.appointmentId as any)?.date
-                      ? new Date((p.appointmentId as any)?.date).toLocaleDateString()
+                      ? new Date(
+                          (p.appointmentId as any)?.date
+                        ).toLocaleDateString()
                       : "-"}{" "}
                     {(p.appointmentId as any)?.time || ""}
                   </p>
