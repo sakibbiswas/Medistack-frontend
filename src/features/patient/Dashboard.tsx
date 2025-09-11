@@ -68,7 +68,7 @@ const PatientDashboard: React.FC = () => {
         <main className="flex-1 p-3 sm:p-6 lg:p-8">
           {/* Header */}
           <header className="mb-6 sm:mb-8">
-            <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mb-2">
+            <h1 className="text-xl mt-5 sm:text-3xl font-bold text-gray-800 mb-2">
               Welcome Back!
             </h1>
             <p className="text-gray-600 text-sm">

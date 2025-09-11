@@ -1,4 +1,3 @@
-//Responsive for mobile and pc 
 // src/pages/patient/BookAppointment.tsx
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
@@ -16,9 +15,13 @@ const BookAppointment: React.FC = () => {
     date: "",
     time: "",
   });
+
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
 
+  // Fetch departments
   const { data: departments = [] } = useGetDepartmentsQuery();
+
+  // Fetch doctors when department changes
   const { data: doctors = [] } = useGetDoctorsByDepartmentQuery(
     formData.departmentId,
     { skip: !formData.departmentId }
@@ -26,7 +29,7 @@ const BookAppointment: React.FC = () => {
 
   const [createAppointment, { isLoading }] = useCreateAppointmentMutation();
 
-  // Load available slots when doctor changes
+  // Update available slots when doctor changes
   useEffect(() => {
     if (!formData.doctorId || !doctors.length) return;
     const doctor = doctors.find((d) => d._id === formData.doctorId);
@@ -41,6 +44,8 @@ const BookAppointment: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate all fields
     if (
       !formData.departmentId ||
       !formData.doctorId ||
@@ -49,9 +54,12 @@ const BookAppointment: React.FC = () => {
     ) {
       return toast.error("⚠️ Please fill all fields");
     }
+
     try {
       await createAppointment(formData).unwrap();
       toast.success("✅ Appointment booked successfully!");
+
+      // Reset form and slots
       setFormData({ departmentId: "", doctorId: "", date: "", time: "" });
       setAvailableSlots([]);
     } catch (err: any) {

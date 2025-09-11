@@ -36,6 +36,7 @@ import DoctorsList from "./pages/DoctorsList";
 import BookingPage from "./pages/BookingPage";
 import MyBookings from "./pages/MyBookings";
 import Privacy from "./pages/Privacy";
+import ServiceDetails from "./pages/ServiceDetails";
 
 import { getUser } from "./utils/auth";
 
@@ -94,9 +95,12 @@ const App: React.FC = () => {
                 <Route path="/patient/book" element={<BookAppointment />} />
               </Route>
 
-        {/* payment */}
+        {/* Service  */}
 
-
+    
+        <Route path="/" element={<Landing />} />
+        <Route path="/service/:id" element={<ServiceDetails />} />
+     
 
 
               {/* Catch-all: redirect unknown routes to landing */}

@@ -1,8 +1,9 @@
-// Responsive Doctors Management Page
+// src/pages/admin/Doctors.tsx
 import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Loader from "../../components/Loader";
 import toast, { Toaster } from "react-hot-toast";
+import { FaPlus, FaClock, FaUserMd, FaTimes } from "react-icons/fa";
 
 import {
   useGetDoctorsQuery,
@@ -11,7 +12,6 @@ import {
   useUpdateAvailabilityMutation,
 } from "../../api/doctorApi";
 import { useGetDepartmentsQuery } from "../../api/departmentApi";
-import { FaPlus, FaClock, FaUserMd, FaTimes } from "react-icons/fa";
 
 interface DoctorForm {
   name: string;
@@ -84,7 +84,7 @@ const Doctors: React.FC = () => {
     if (!selectedDoctorId) return toast.error("Select a doctor first");
     try {
       await updateAvailability({ id: selectedDoctorId, slots: editSlots }).unwrap();
-      toast.success("Availability updated!");
+      toast.success("Availability updated successfully!");
       setSelectedDoctorId(null);
       setEditSlots([]);
     } catch (err: any) {
@@ -172,13 +172,11 @@ const Doctors: React.FC = () => {
       <div className="absolute top-1/4 -right-28 w-64 h-64 sm:w-80 sm:h-80 bg-teal-300 rounded-full mix-blend-multiply filter blur-2xl opacity-25 animate-float2"></div>
       <div className="absolute bottom-0 left-1/3 w-56 h-56 sm:w-72 sm:h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float3"></div>
 
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 pt-20 relative z-10 lg:ml-64 w-full max-w-full">
         <Toaster position="top-right" />
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 flex items-center gap-3">
+        <h2 className="text-2xl mt-5 sm:text-3xl font-bold mb-6 text-gray-800 flex items-center gap-3">
           <FaUserMd /> Doctors Management
         </h2>
 
@@ -236,7 +234,7 @@ const Doctors: React.FC = () => {
             ))}
           </select>
 
-          {/* Slot Input */}
+          {/* Slots */}
           <div className="border p-3 rounded-lg bg-white/50">
             <div className="flex flex-col sm:flex-row gap-2 mb-2">
               <input
